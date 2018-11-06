@@ -14,6 +14,7 @@ do
                         chmod -R 777 /www/$s 2>&1;
                         mkdir "/www/tempvid/$s" 2>&1;
                         chmod -R 777 /www/tempvid/$s 2>&1;
+                        ./clean_tempvid.sh "/www/tempvid/$s/" &
                         # ./grabber.sh $q $s
                         ffmpeg  -rtsp_transport tcp \
                                 -i $q \
