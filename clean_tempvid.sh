@@ -10,4 +10,5 @@
 while :
         do
                 \ls -tp $1 | grep -v '/$' | tail -n +21 | xargs -I {} rm -- "$1{}"
+                sleep 10
 done
