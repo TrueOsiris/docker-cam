@@ -9,13 +9,15 @@ do
                 echo "$s is unset";
         else
                 if [ -n "$q" ]; then
-                        echo "$s: $q";
+                        echo "Starting processes for $s: $q";
                         mkdir "/www/$s" 2>&1;
                         chmod -R 777 /www/$s 2>&1;
                         mkdir "/www/tempvid/$s" 2>&1;
                         chmod -R 777 /www/tempvid/$s 2>&1;
+                        ps -auxw | grep -e [f]fmpeg | grep $s | awk '{print $2}' | xargs kill 2>/dev/null
+                        ps -auxw | grep -e [c]lean_ | grep $s | awk '{print $2}' | xargs kill 2>/dev/null
                         /sbin/clean_tempvid.sh "/www/tempvid/$s/" &
-                        # ./grabber.sh $q $s
+
                         ffmpeg  -rtsp_transport tcp \
                                 -i $q \
                                 -vcodec copy \
