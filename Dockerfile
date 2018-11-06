@@ -1,4 +1,4 @@
-FROM trueosiris/webserver
+FROM trueosiris/webserver:latest
 MAINTAINER tim@chaubet.be
 
 ARG DEBIAN_FRONTEND=noninteractive
