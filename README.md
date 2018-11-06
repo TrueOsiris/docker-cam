@@ -7,5 +7,5 @@ Docker container for ipcam capturing of movement
     -p 4567:80 \
     -v /some/host/folder/www:/www \
     -v /some/host/folder/config:/config \
-    -e stream1:
+    -e stream1:rtsp://10.10.0.1/MainStream
     trueosiris/cam
