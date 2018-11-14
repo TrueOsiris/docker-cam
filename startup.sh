@@ -1,8 +1,8 @@
 #!/bin/bash
-mkdir "/www/tempvid" 2>&1
-chmod -R 777 /www/tempvid 2>&1
-mkdir "/www/tempthumb" 2>&1
-chmod -R 777 www/tempthumb 2>&1
+mkdir "/www/tempvid" 2>/dev/null
+chmod -R 777 /www/tempvid 2>/dev/null
+mkdir "/www/tempthumb" 2>/dev/null
+chmod -R 777 www/tempthumb 2>/dev/null
 for y in {1..10}
 do
         s="stream$y";
@@ -12,12 +12,14 @@ do
         else
                 if [ -n "$q" ]; then
                         echo "$s: $q";
-                        mkdir "/www/$s" 2>&1;
-                        chmod -R 777 /www/$s 2>&1;
-                        mkdir "/www/tempvid/$s" 2>&1;
-                        chmod -R 777 /www/tempvid/$s 2>&1;
-                        mkdir "/www/tempthumb/$s" 2>&1;
-                        chmod -R 777 /www/tempthumb/$s 2>&1;
+                        mkdir "/www/$s" 2>/dev/null;
+                        mkdir "/www/$s/pics" 2>/dev/null;
+                        mkdir "/www/$s/vids" 2>/dev/null;
+                        chmod -R 777 /www/$s 2>/dev/null;
+                        mkdir "/www/tempvid/$s" 2>/dev/null;
+                        chmod -R 777 /www/tempvid/$s 2>/dev/null;
+                        mkdir "/www/tempthumb/$s" 2>/dev/null;
+                        chmod -R 777 /www/tempthumb/$s 2>/dev/null;
                         ps -auxw | grep -e [f]fmpeg | grep $s | grep mp4 | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [f]fmpeg | grep $s | grep jpg | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]lean_ | grep vid | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
@@ -47,7 +49,7 @@ do
                                 "/www/tempthumb/$s/$s-%Y-%m-%d_%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
                 else
-                        echo "$s is not defined.";
+                        echo "$s is not defined."
                 fi
         fi
 done
