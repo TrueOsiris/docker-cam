@@ -24,6 +24,7 @@ do
                         ps -auxw | grep -e [f]fmpeg | grep $s | grep jpg | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]lean_ | grep vid | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]lean_ | grep thumb | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
+                        ps -auxw | grep -e [c]ompare | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         # cleaning up extra temp videos and thumbs
                         /sbin/clean_tempvid.sh "/www/tempvid/$s/" &
                         /sbin/clean_tempvid.sh "/www/tempthumb/$s/" &
