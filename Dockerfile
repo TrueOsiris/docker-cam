@@ -5,6 +5,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update 
 RUN apt-get dist-upgrade -y 
 RUN apt-get install -y ffmpeg \
+                       imagemagick \
+                       bc \
  && apt-get autoremove -y \
  && apt-get autoclean -y \
  && rm -rf /var/lib/apt/lists/* \
