@@ -48,6 +48,9 @@ do
                                 -strftime 1 \
                                 "/www/tempthumb/$s/$s-%Y-%m-%d_%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
+                        # copying pics with differences
+                        /sbin/compare.sh $s &
+
                 else
                         echo "$s is not defined."
                 fi
