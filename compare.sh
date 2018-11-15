@@ -19,7 +19,7 @@ while :
                 p3=`echo "scale=2; $p2/1" | bc 2>/dev/null`
                 num2=1
                 sec=$(date "+%Y-%m-%d %H:%M:%S")
-                echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3" >> "/www/$1/pics/$day.log"
+                #echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3" >> "/www/$1/pics/$day.log"
                 tst=`echo $p3'>'$num2 | bc -l`
                 if [ $tst -eq 1 ]; then
                         if [[ ! -e "/www/$1/pics/$file2" ]]; then
