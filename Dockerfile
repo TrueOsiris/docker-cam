@@ -19,14 +19,14 @@ RUN apt-get install -y ffmpeg \
 
 COPY clean_tempvid.sh /sbin/clean_tempvid.sh
 RUN chmod +x /sbin/clean_tempvid.sh
-
 COPY compare.sh /sbin/compare.sh
 RUN chmod +x /sbin/compare.sh
+COPY timelapse.sh /sbin/timelapse.sh
+RUN chmod +x /sbin/timelapse.sh
 
 COPY startup.sh /sbin/startup2
 RUN chmod +x /sbin/startup2; sync \
     && /bin/bash -c /sbin/startup2 
-
 
 VOLUME ["/config", "/www"]
 
