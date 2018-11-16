@@ -12,6 +12,7 @@ do
         else
                 if [ -n "$q" ]; then
                         echo "$s: $q";
+                        echo "checking directories and rights for $s ..."
                         mkdir "/www/$s" 2>/dev/null;
                         mkdir "/www/$s/pics" 2>/dev/null;
                         mkdir "/www/$s/vids" 2>/dev/null;
@@ -28,6 +29,7 @@ do
                         ps -auxw | grep -e [c]lean_ | grep thumb | grep bw | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]lean_ | grep thumb | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]ompare | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
+                        ps -auxw | grep -e [t]imelapse | awk '{print $2}' | xargs kill 2>/dev/null;
                         echo "starting everything for $s in 3 seconds ..."
                         sleep 3
                         # cleaning up extra temp videos and thumbs
@@ -44,7 +46,7 @@ do
                                 -segment_time 15 \
                                 -segment_format mp4 \
                                 -strftime 1 \
-                                "/www/tempvid/$s/$s-%Y-%m-%d_%H-%M-%S.mp4" \
+                                "/www/tempvid/$s/$s-%Y-%m-%d__%H-%M-%S.mp4" \
                                 >/dev/null 2>&1 &
                         # getting a pic per second
                         ffmpeg  -rtsp_transport tcp \
@@ -53,19 +55,24 @@ do
                                 -map 0 \
                                 -vf fps=1 \
                                 -strftime 1 \
-                                "/www/tempthumb/$s/$s-%Y-%m-%d_%H-%M-%S.jpg" \
+                                "/www/tempthumb/$s/$s-%Y-%m-%d__%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
                         # getting black and white thumbnails
                         ffmpeg  -rtsp_transport tcp \
                                 -i $q \
                                 -an \
                                 -map 0 \
-                                -vf fps=1,format=gray,format=yuv422p \
+                                -vf fps=1,format=gray,format=yuv422p,scale="512:-1" \
                                 -strftime 1 \
-                                "/www/tempthumb/$s/bw/$s-%Y-%m-%d_%H-%M-%S.jpg" \
+                                "/www/tempthumb/$s/bw/$s-%Y-%m-%d__%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
                         # copying pics with differences
-                        /sbin/compare.sh $s &
+                        /sbin/compare.sh $s "7.5" "pics/fuz7.5" &
+                        /sbin/compare.sh $s 8 "pics/fuz8" &
+                        /sbin/compare.sh $s "8.5" "pics/fuz8.5" &
+                        /sbin/compare.sh $s 9 "pics/fuz9" &
+                        /sbin/compare.sh $s 10 "pics/fuz10" &
+                        /sbin/timelapse.sh &
                 fi
         fi
 done
