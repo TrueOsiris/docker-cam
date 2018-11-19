@@ -67,11 +67,7 @@ do
                                 "/www/tempthumb/$s/bw/$s-%Y-%m-%d__%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
                         # copying pics with differences
-                        /sbin/compare.sh $s "7.5" "pics/fuz7.5" &
-                        /sbin/compare.sh $s 8 "pics/fuz8" &
-                        /sbin/compare.sh $s "8.5" "pics/fuz8.5" &
-                        /sbin/compare.sh $s 9 "pics/fuz9" &
-                        /sbin/compare.sh $s 10 "pics/fuz10" &
+                        /sbin/compare.sh $s 10 "pics" &
                         /sbin/timelapse.sh &
                 fi
         fi
