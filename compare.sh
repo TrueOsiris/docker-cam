@@ -42,7 +42,7 @@ while :
                 echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
                 if [ $tst -eq 1 ]; then
                         if [[ ! -e "/www/$s/$targetpath/$file2" ]]; then
-                                cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile
+                                cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
                                 filedate=$(date -r /www/$s/$targetpath/$day/$file2 "+%Y-%m-%d %H:%M:%S") 2>>$logfile
                                 convert -size 300x28 xc:none -pointsize 24 -gravity center -stroke black -strokewidth 2 \
                                         -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
