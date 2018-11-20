@@ -3,6 +3,9 @@ mkdir "/www/tempvid" 2>/dev/null
 chmod -R 777 /www/tempvid 2>/dev/null
 mkdir "/www/tempthumb" 2>/dev/null
 chmod -R 777 www/tempthumb 2>/dev/null
+if [ ! -f /www/index.php ]; then
+        cp index.php /www/ 2>&1
+fi
 for y in {1..12}
 do
         s="stream$y";
