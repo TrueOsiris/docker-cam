@@ -5,17 +5,28 @@
     <title>surveillance</title>
 	<script src="jquery.min.js"></script>
 	<script>
-		$(document).ready(function(){
-			$("#mydiv").show();
-			$("#mydiv").click(function(){
-				$(this).hide();
-			});
+		$(document).ready(function () {
+		<?php // for ($k=0;$k<12;$k++) { ?>
+			$("#divvid<?php //echo $k ?>").css({"display":"none"});; // hide video div on start
+			$("#divvidpic<?php //echo $k ?>").mouseover(
+			function () {
+				$(this).find("#divvid<?php //echo $k ?>").css({"display":"block"});
+				$(this).find("#divpic<?php //echo $k ?>").css({"display":"none"});
+                $(this).find("#divvid<?php //echo $k ?>").children("video")[0].play();
+            });
+			$("#divvidpic<?php //echo $k ?>").mouseleave(
+			function () {
+				$(this).find("#divvid<?php //echo $k ?>").css({"display":"none"});;
+				$(this).find("#divpic<?php //echo $k ?>").css({"display":"block"});;
+                $(this).find("#divvid<?php //echo $k ?>").children("video")[0].stop();
+            });	
+		<?php //} ?>
 		});
 	</script>
 	<style>
 		div {
 			/* width: 40%; */
-			padding-right: 10px;
+			padding: 0px;
 			display: inline-block;
 			color: black;
 		}
@@ -40,7 +51,6 @@
  <div align="center">
  <? $query = $_GET;
 	$vars = fopen("vars.txt","r") or die ("unable to open vars.txt");
-	//echo fread($vars,filesize("vars.txt"));
 	while(!feof($vars)) {
 		$content = fgets($vars);
 		if (trim($content) !== '') {
@@ -71,15 +81,12 @@
 			
 			// get current day for cam $i from url or set default
 			if (!isset ($query[$currentcam.'-d'])) {
-				${$currentcam.'-d'} = $dirs[sizeof($dirs)-1];
-			} else {
-				${$currentcam.'-d'} = $query[$currentcam.'-d'];
+				$query[$currentcam.'-d'] = $dirs[sizeof($dirs)-1];
 			}
-			$dir_number = array_search(${$currentcam.'-d'}, $dirs);
-
+			$dir_number = array_search($query[$currentcam.'-d'], $dirs);
 			// show current day for cam $i + arrows
 			echo '<tr><td align="center">';
-			if (${$currentcam.'-d'} == $dirs[0]) {
+			if ($query[$currentcam.'-d'] == $dirs[0]) {
 				echo '<<';
 			} else {	
 				$query[$currentcam.'-d'] = $dirs[($dir_number-1)];
@@ -93,10 +100,11 @@
 				$query[$currentcam.'-d'] = $dirs[($dir_number)];
 				if (isset($tempf)) {
 					$query[$currentcam.'-f'] = $tempf;
+					unset($tempf);
 				}
 			}
-			echo ' '.${$currentcam.'-d'}.' ('.($dir_number+1).'/'.sizeof($dirs).') ';
-			if (${$currentcam.'-d'} == $dirs[sizeof($dirs)-1]) {
+			echo ' '.$query[$currentcam.'-d'].' ('.($dir_number+1).'/'.sizeof($dirs).') ';
+			if ($query[$currentcam.'-d'] == $dirs[sizeof($dirs)-1]) {
 				echo '>>';
 			} else {
 				$query[$currentcam.'-d'] = $dirs[($dir_number+1)];
@@ -110,42 +118,64 @@
 				$query[$currentcam.'-d'] = $dirs[($dir_number)];
 				if (isset($tempf)) {
 					$query[$currentcam.'-f'] = $tempf;
+					unset($tempf);
 				}
 			}
 			echo '</td></tr>';
 			echo '<tr><td align="center">';
 			// get current file for cam $i for selected day from url, or set default
-			$newpath = $imgloc[$i].'/'.${$currentcam.'-d'};
+			$newpath = $imgloc[$i].'/'.$query[$currentcam.'-d'];
 			$files = scandir($newpath, SCANDIR_SORT_ASCENDING);
 			if (!isset ($query[$currentcam.'-f'])) {
-				${$currentcam.'-f'} = $files[sizeof($files)-1];
-			} else {
-				${$currentcam.'-f'} = $query[$currentcam.'-f'];
+				$query[$currentcam.'-f'] = $files[sizeof($files)-1];
 			}
-			$file_number = array_search(${$currentcam.'-f'},$files);
+			$file_number = array_search($query[$currentcam.'-f'],$files);
 			
 			// show current time for cam $i and current day + arrows
-			if (${$currentcam.'-f'} == $files[0]) {
+			if ($query[$currentcam.'-f'] == $files[0]) {
 				echo '<<';
 			} else {
 				$query[$currentcam.'-f'] = $files[($file_number-1)];
 				$query_result = $_SERVER['PHP_SELF'].'?'.http_build_query($query);
 				echo '<a href="'.$query_result.'"><<</a>';
+				$query[$currentcam.'-f'] = $files[($file_number)];
 			}
-			$cur_time = str_replace('-',':',explode('.',explode('__',${$currentcam.'-f'})[1])[0]);
+			$cur_time = str_replace('-',':',explode('.',explode('__',$query[$currentcam.'-f'])[1])[0]);
 			echo ' '.$cur_time.' ('.($file_number+1).'/'.sizeof($files).') ';
-			if (${$currentcam.'-f'} == $files[sizeof($files)-1]) {
+			if ($query[$currentcam.'-f'] == $files[sizeof($files)-1]) {
 				echo '>>';
 			} else {
 				$query[$currentcam.'-f'] = $files[($file_number+1)];
 				$query_result = $_SERVER['PHP_SELF'].'?'.http_build_query($query);
 				echo '<a href="'.$query_result.'">>></a>';
+				$query[$currentcam.'-f'] = $files[($file_number)];
 			}
 			
 			echo '</td></tr>';
+			// get timelapse video when hovering
+			if ($query[$currentcam.'-d'] == $dirs[sizeof($dirs)-1]) {
+				$vid = $imgloc[$i].'/'.$query[$currentcam.'-d'].'_temp_timelapse.mp4';
+			} else {
+				$vid = $imgloc[$i].'/'.$query[$currentcam.'-d'].'_timelapse.mp4';
+			}
 			echo '<tr><td align="center">';
-			echo '<img src="'.$newpath.'/'.${$currentcam.'-f'}.'" width="512">';
-			echo '</td></tr>';
+			echo '<div id="divvidpic">';
+			echo '<div id="divpic">';
+			echo '<img id="pic" src="'.$newpath.'/'.$query[$currentcam.'-f'].'" width="512">';
+			echo '</div>';
+			echo '<div id="divvid">';
+			echo '<video id="vid" preload="auto" width="512" loop><source src="'.$vid.'" type="video/mp4"></video>';
+			
+			//echo '<div id="divvidpic'.$i.'">';
+			//echo '<div id="divpic'.$i.'">';
+			//echo '<img id="pic'.$i.'" src="'.$newpath.'/'.${$currentcam.'-f'}.'" width="512">';
+			//echo '</div>';
+			//echo '<div id="divvid'.$i.'">';
+			//echo '<video id="vid'.$i.'" preload="auto" width="512" loop><source src="'.$vid.'" type="video/mp4"></video>';
+			
+			echo '</div>';
+			echo '</div>';
+			echo '</td></tr></table>';
 			//echo $_SERVER['DOCUMENT_ROOT'];
 		}
 		echo "</td>";
