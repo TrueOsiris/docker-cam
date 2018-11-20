@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<?php //$request = new ServerRequest(); ?>
 <html>
 <head>
     <title>surveillance</title>
