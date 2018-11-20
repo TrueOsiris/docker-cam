@@ -19,9 +19,9 @@ RUN chmod +x /sbin/compare.sh
 COPY timelapse.sh /sbin/timelapse.sh
 RUN chmod +x /sbin/timelapse.sh
 
-COPY startup.sh /sbin/startup2
-RUN chmod +x /etc/my_init.d/startup2; sync \
-    && /bin/bash -c /etc/my_init.d/startup2 
+COPY startup.sh /etc/my_init.d/startup.sh
+RUN chmod +x /etc/my_init.d/startup.sh; sync \
+    && /bin/bash -c /etc/my_init.d/startup.sh
 
 VOLUME ["/config", "/www"]
 
