@@ -20,8 +20,8 @@ COPY timelapse.sh /sbin/timelapse.sh
 RUN chmod +x /sbin/timelapse.sh
 
 COPY startup.sh /sbin/startup2
-RUN chmod +x /sbin/startup2; sync \
-    && /bin/bash -c /sbin/startup2 
+RUN chmod +x /etc/my_init.d/startup2; sync \
+    && /bin/bash -c /etc/my_init.d/startup2 
 
 VOLUME ["/config", "/www"]
 
