@@ -11,11 +11,6 @@ RUN apt-get install -y ffmpeg \
  && apt-get autoclean -y \
  && rm -rf /var/lib/apt/lists/* \
  && rm -rf /tmp/* /var/tmp/* 
- 
-#COPY runonce.sh /sbin/runonce
-#RUN chmod +x /sbin/runonce; sync \
-#    && /bin/bash -c /sbin/runonce \
-#    && rm /sbin/runonce
 
 COPY clean_tempvid.sh /sbin/clean_tempvid.sh
 RUN chmod +x /sbin/clean_tempvid.sh
