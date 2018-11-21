@@ -6,6 +6,7 @@ chmod -R 777 www/tempthumb 2>/dev/null
 if [ ! -f /www/index.php ]; then
         cp index.php /www/ 2>&1
 fi
+> /www/vars.txt 2>&1
 for y in {1..12}
 do
         s="stream$y";
@@ -15,6 +16,7 @@ do
         else
                 if [ -n "$q" ]; then
                         echo "$s: $q";
+                        echo "$s: $q" >> /www/vars.txt;
                         echo "checking directories and rights for $s ..."
                         mkdir "/www/$s" 2>/dev/null;
                         mkdir "/www/$s/pics" 2>/dev/null;
