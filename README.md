@@ -9,3 +9,7 @@ Docker container for ipcam capturing of movement
     -v /some/host/folder/config:/config \
     -e 'stream1':'rtsp://10.10.0.1/MainStream'
     trueosiris/cam
+
+You can restart the functionality of the container from within:
+
+    docker exec -it cam /sbin/startup2
