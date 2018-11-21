@@ -73,7 +73,7 @@ do
                                 >/dev/null 2>&1 &
                         # copying pics with differences
                         /sbin/compare.sh $s 10 "pics" &
-                        /sbin/timelapse.sh &
                 fi
         fi
 done
+/sbin/timelapse.sh &
