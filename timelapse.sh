@@ -13,12 +13,13 @@ while :
           do
             if [ $i == $today ]; then
               ffmpeg -y -framerate 24 -pattern_type glob -i "$basedir/$i/*.jpg" -c:v libx264 -pix_fmt yuv420p \
-                "$basedir/${i}_temp_timelapse.mp4" >/dev/null 2>&1 &
+                "$basedir/${i}_temp_timelapse_in_progress.mp4" >/dev/null 2>&1
+              mv "$basedir/${i}_temp_timelapse_in_progress.mp4" "$basedir/${i}_temp_timelapse.mp4"
             else
               file="$basedir/${i}_timelapse.mp4"
               if [[ ! -f "$file" ]]; then
                 ffmpeg -framerate 24 -pattern_type glob -i "$basedir/$i/*.jpg" -c:v libx264 -pix_fmt yuv420p \
-                  "$basedir/${i}_timelapse.mp4" >/dev/null 2>&1 &
+                  "$basedir/${i}_timelapse.mp4" >/dev/null 2>&1
                 rm "$basedir/${i}_temp_timelapse.mp4" 2>&1
               fi
             fi
