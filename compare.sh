@@ -51,6 +51,7 @@ while :
                                                         -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
                                                         -fill white -annotate 0 "$filedate" "/www/$s/$targetpath/$day/$file2" +swap \
                                                         -gravity south -geometry +0-3 -composite "/www/$s/$targetpath/$day/$file2" 2>>$logfile
+                                                /sbin/movevid.sh $s $file2 &
                                         else
                                                 echo "`date` sourcefile $realpath$file2 does not exist" >> $logfile
                                         fi
