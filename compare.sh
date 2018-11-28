@@ -40,16 +40,23 @@ while :
                 sec=$(date "+%Y-%m-%d %H:%M:%S")
                 tst=`echo $p3'>'$num2 | bc -l`
                 echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
-                if [ $tst -eq 1 ]; then
-                        if [[ ! -e "/www/$s/$targetpath/$file2" ]]; then
-                                cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
-                                filedate=$(date -r /www/$s/$targetpath/$day/$file2 "+%Y-%m-%d %H:%M:%S") 2>>$logfile
-                                convert -size 300x28 xc:none -pointsize 24 -gravity center -stroke black -strokewidth 2 \
-                                        -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
-                                        -fill white -annotate 0 "$filedate" "/www/$s/$targetpath/$day/$file2" +swap \
-                                        -gravity south -geometry +0-3 -composite "/www/$s/$targetpath/$day/$file2" 2>>$logfile
-                        else
-                                echo "`date` file /www/$s/$targetpath/$file2 already exists" >> $logfile
+                if [ -z "$tst" ]; then
+                        #echo "${tst}"
+                        if [ "${tst}" = "1" ]; then
+                                if [[ ! -e "/www/$s/$targetpath/$file2" ]]; then
+                                        if [[ -e "$realpath$file2" ]]; then
+                                                cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
+                                                filedate=$(date -r /www/$s/$targetpath/$day/$file2 "+%Y-%m-%d %H:%M:%S") 2>>$logfile
+                                                convert -size 300x28 xc:none -pointsize 24 -gravity center -stroke black -strokewidth 2 \
+                                                        -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
+                                                        -fill white -annotate 0 "$filedate" "/www/$s/$targetpath/$day/$file2" +swap \
+                                                        -gravity south -geometry +0-3 -composite "/www/$s/$targetpath/$day/$file2" 2>>$logfile
+                                        else
+                                                echo "`date` sourcefile $realpath$file2 does not exist" >> $logfile
+                                        fi
+                                else
+                                        echo "`date` file /www/$s/$targetpath/$file2 already exists" >> $logfile
+                                fi
                         fi
                 fi
                 sleep 1
