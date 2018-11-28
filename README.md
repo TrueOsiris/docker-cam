@@ -26,8 +26,8 @@ You can restart the functionality of the container from within:
 
 - default global fuzziness factor for all streams for imagemagick compare command = 15
 
-    FUZZ_GLOBAL:15
+      -e FUZZ_GLOBAL:15
 
 - individual fuzziness factor for a stream
 
-    -e stream1_FUZZ:10
+      -e stream1_FUZZ:10
