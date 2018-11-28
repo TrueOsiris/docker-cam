@@ -1,4 +1,5 @@
 #!/bin/bash
+fuzglobal_default=15
 mkdir "/www/tempvid" 2>/dev/null
 chmod -R 777 /www/tempvid 2>/dev/null
 mkdir "/www/tempthumb" 2>/dev/null
@@ -6,11 +7,20 @@ chmod -R 777 www/tempthumb 2>/dev/null
 if [ ! -f /www/index.php ]; then
         cp index.php /www/ 2>&1
 fi
+fuzglobal_varname="FUZZ_GLOBAL"
+fuzglobal=${!fuzglobal_varname}
+if [ -z ${fuzglobal} ]; then
+        echo "$fuzglobal_varname is unset. Setting to default of $fuzglobal_default"
+        fuzglobal=$fuzglobal_default
+else
+        echo "$fuzglobal_varname is set. Setting to $fuzglobal"
+fi
 > /www/vars.txt 2>&1
 for y in {1..12}
 do
         s="stream$y";
         q=${!s};
+        fuz=$fuzglobal
         if [ -z ${q+x} ]; then
                 echo "$s is unset";
         else
@@ -72,7 +82,8 @@ do
                                 "/www/tempthumb/$s/bw/$s-%Y-%m-%d__%H-%M-%S.jpg" \
                                 >/dev/null 2>&1 &
                         # copying pics with differences
-                        /sbin/compare.sh $s 10 "pics" &
+                        /sbin/compare.sh $s "$fuz" "pics" &
+                        #/sbin/compare.sh $s 14 "pics/fuz14" &
                 fi
         fi
 done
