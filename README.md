@@ -31,3 +31,9 @@ You can restart the functionality of the container from within:
 - individual fuzziness factor for a stream
 
       -e stream1_FUZZ:10
+
+# webserver
+
+The camera images & timelapses can be viewed through the webserver.
+There is no login frontend system foreseen. 
+
