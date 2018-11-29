@@ -1,5 +1,5 @@
 #!/bin/bash
-sleep 20
+sleep 30
 s=$1
 v=`echo $2 | sed 's/\.[^.]*$//'`
 vend=${v##*-}
@@ -8,6 +8,7 @@ vbase=${v%-*}
 sourcedir="/www/tempvid/$s/"
 targetdir="/www/$s/vids/$3/"
 mkdir -p "$targetdir" 2>/dev/null
+chmod -R 777 "$targetdir" 2>/dev/null
 case 1 in
         $((0<=$vend && $vend<15)))mend=0;;
         $((15<=$vend && $vend<30)))mend=15;;
