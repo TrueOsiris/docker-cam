@@ -7,7 +7,7 @@ else
 fi
 ## param 2 is the fuzziness factor to compare
 if [ -z $2 ]; then
-        fuz=5
+        fuz=15
 else
         fuz=$2
 fi
@@ -39,7 +39,7 @@ while :
                 num2=1
                 sec=$(date "+%Y-%m-%d %H:%M:%S")
                 tst=`echo $p3'>'$num2 | bc -l`
-                #echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
+                echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
                 if [ -z "$tst" ]; then
                         #echo "${tst}"
                         if [ "${tst}" = "1" ]; then
@@ -60,5 +60,20 @@ while :
                                 fi
                         fi
                 fi
+                ### copy 1 pic per 5 mins at least
+                f2=`echo $file2 | sed 's/\.[^.]*$//'`
+                f2secs=${f2##*-}
+                f2temp=${f2%-*}
+                f2mins=${f2temp##*-}
+                f25=$((f2mins % 5))
+                if [ "$f2secs" == "00" ] && [ "$f25" == "0" ]; then
+                        cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
+                        filedate=$(date -r /www/$s/$targetpath/$day/$file2 "+%Y-%m-%d %H:%M:%S") 2>>$logfile
+                        convert -size 300x28 xc:none -pointsize 24 -gravity center -stroke black -strokewidth 2 \
+                                -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
+                                -fill white -annotate 0 "$filedate" "/www/$s/$targetpath/$day/$file2" +swap \
+                                -gravity south -geometry +0-3 -composite "/www/$s/$targetpath/$day/$file2" 2>>$logfile
+                fi
                 sleep 1
 done
+
