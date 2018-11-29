@@ -67,6 +67,7 @@ while :
                 f2secs=${f2##*-}
                 f2temp=${f2%-*}
                 f2mins=${f2temp##*-}
+                f2mins=$((10#$f2mins))
                 f25=$((f2mins % 5))
                 if [ "$f2secs" == "00" ] && [ "$f25" == "0" ]; then
                         cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
