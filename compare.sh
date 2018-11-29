@@ -40,7 +40,7 @@ while :
                 sec=$(date "+%Y-%m-%d %H:%M:%S")
                 tst=`echo $p3'>'$num2 | bc -l`
                 echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
-                if [ -z "$tst" ]; then
+                if [ ! -z "$tst" ]; then
                         #echo "${tst}"
                         if [ "${tst}" = "1" ]; then
                                 if [[ ! -e "/www/$s/$targetpath/$file2" ]]; then
