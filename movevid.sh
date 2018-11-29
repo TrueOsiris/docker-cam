@@ -3,6 +3,7 @@ sleep 20
 s=$1
 v=`echo $2 | sed 's/\.[^.]*$//'`
 vend=${v##*-}
+vend=$((10#$vend))
 vbase=${v%-*}
 sourcedir="/www/tempvid/$s/"
 targetdir="/www/$s/vids/"
