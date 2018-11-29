@@ -1,5 +1,5 @@
 #!/bin/bash
-fuzglobal_default=15
+fuzglobal_default=12
 mkdir "/www/tempvid" 2>/dev/null
 chmod -R 777 /www/tempvid 2>/dev/null
 mkdir "/www/tempthumb" 2>/dev/null
@@ -45,6 +45,7 @@ do
                         ps -auxw | grep -e [c]lean_ | grep thumb | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [c]ompare | grep $s | awk '{print $2}' | xargs kill 2>/dev/null;
                         ps -auxw | grep -e [t]imelapse | awk '{print $2}' | xargs kill 2>/dev/null;
+                        ps -auxw | grep sleep | awk '{print $2}' | xargs kill 2>/dev/null;
                         echo "starting everything for $s in 3 seconds ..."
                         sleep 3
                         # cleaning up extra temp videos and thumbs
