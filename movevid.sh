@@ -6,7 +6,8 @@ vend=${v##*-}
 vend=$((10#$vend))
 vbase=${v%-*}
 sourcedir="/www/tempvid/$s/"
-targetdir="/www/$s/vids/"
+targetdir="/www/$s/vids/$3/"
+mkdir -p "$targetdir" 2>/dev/null
 case 1 in
         $((0<=$vend && $vend<15)))mend=0;;
         $((15<=$vend && $vend<30)))mend=15;;
@@ -23,6 +24,7 @@ do
         if [ -f "$sourcedir$moviefile" ]; then
                 if [ ! -f "$targetdir$moviefile" ]; then
                         cp "$sourcedir$moviefile" "$targetdir$moviefile" 2>&1
+                        #echo "copying $sourcedir$moviefile to $targetdir ..."
                 fi
         fi
 done
