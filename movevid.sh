@@ -12,7 +12,6 @@ case 1 in
         $((30<=$vend && $vend<45)))mend=30;;
         $((45<=$vend && $vend<=59)))mend=45;;
 esac
-#echo "vbase: $vbase - vend: $vend - mend: $mend"
 for (( i=$mend; i<$((mend+15)); i++ ))
 do
         t="$i";
@@ -20,11 +19,9 @@ do
                 t="0$i";
         fi
         moviefile="$vbase-$t.mp4"
-        #echo $moviefile
         if [ -f "$sourcedir$moviefile" ]; then
                 if [ ! -f "$targetdir$moviefile" ]; then
                         cp "$sourcedir$moviefile" "$targetdir$moviefile" 2>&1
-                        echo "copying $sourcedir$moviefile to $targetdir ..."
                 fi
         fi
 done
