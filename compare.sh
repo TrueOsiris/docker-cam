@@ -39,11 +39,11 @@ while :
                 num2=1
                 sec=$(date "+%Y-%m-%d %H:%M:%S")
                 tst=`echo $p3'>'$num2 | bc -l`
-                echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
+                #echo "$sec fuzz:$fuz str:$1 difpix:$diff tpix:$totalpixelsf2 r:$p3 t:$tst" >> $logfile
                 if [ ! -z "$tst" ]; then
                         #echo "${tst}"
                         if [ "${tst}" = "1" ]; then
-                                echo "should copy" >> $logfile
+                                #echo "should copy" >> $logfile
                                 if [[ ! -e "/www/$s/$targetpath/$day/$file2" ]]; then
                                         if [[ -e "$realpath$file2" ]]; then
                                                 cp "$realpath$file2" "/www/$s/$targetpath/$day/" 2>>$logfile 1>>$logfile
@@ -52,8 +52,8 @@ while :
                                                         -annotate 0 "$filedate" -background none -shadow 100x2+0+0 +repage -stroke none \
                                                         -fill white -annotate 0 "$filedate" "/www/$s/$targetpath/$day/$file2" +swap \
                                                         -gravity south -geometry +0-3 -composite "/www/$s/$targetpath/$day/$file2" 2>>$logfile
-                                                echo "movevid $s $file2" >>$logfile
-                                                /sbin/movevid.sh $s $file2 &
+                                                #echo "movevid $s $file2" >>$logfile
+                                                /sbin/movevid.sh $s $file2 $day $logfile &
                                         else
                                                 echo "`date` sourcefile $realpath$file2 does not exist" >> $logfile
                                         fi
