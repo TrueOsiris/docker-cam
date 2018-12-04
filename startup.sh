@@ -1,5 +1,5 @@
 #!/bin/bash
-fuzglobal_default=12
+fuzglobal_default=15
 mkdir "/www/tempvid" 2>/dev/null
 chmod -R 777 /www/tempvid 2>/dev/null
 mkdir "/www/tempthumb" 2>/dev/null
@@ -84,7 +84,7 @@ do
                                 >/dev/null 2>&1 &
                         # copying pics with differences
                         /sbin/compare.sh $s "$fuz" "pics" &
-                        #/sbin/compare.sh $s 14 "pics/fuz14" &
+                        #/sbin/compare.sh $s 8 "pics/fuz8" &
                 fi
         fi
 done
