@@ -31,7 +31,7 @@ while :
                 fi
                 file1=`ls -tp $thumbpath | grep -v / | head -n2 | sort | head -n1`
                 file2=`ls -tp $thumbpath | grep -v / | head -n1`
-                totalpixelsf2=`identify -verbose -format %[fx:w*h] "$thumbpath$file2"`
+                totalpixelsf2=`identify -verbose -format %[fx:w*h] "$thumbpath$file2" 2>/dev/null`
                 diff=`compare -fuzz "$fuz%" -metric ae "$thumbpath$file1" "$thumbpath$file2" "/tmp/$s_compare$fuz_temp.jpg" 2>&1`
                 p=`echo "scale=6; ($diff/$totalpixelsf2)" | bc 2>/dev/null`
                 p2=`echo "$p*100" | bc 2>/dev/null`
