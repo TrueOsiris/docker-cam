@@ -21,6 +21,12 @@ COPY timelapse.sh /sbin/timelapse.sh
 RUN chmod +x /sbin/timelapse.sh
 COPY movevid.sh /sbin/movevid.sh
 RUN chmod +x /sbin/movevid.sh
+COPY blackwhite.sh /sbin/blackwhite.sh
+RUN chmod +x /sbin/blackwhite.sh
+COPY capturepics.sh /sbin/capturepics.sh
+RUN chmod +x /sbin/capturepics.sh
+COPY segments.sh /sbin/segments.sh
+RUN chmod +x /sbin/segments.sh
 
 RUN mkdir -p /etc/my_init.d
 COPY startup.sh /etc/my_init.d/startup.sh
