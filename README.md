@@ -1,4 +1,4 @@
-# docker-cam
+# cam
 Docker container for ipcam capturing of movement. 
 This is a spycam, based on rtsp stream(s).
 
