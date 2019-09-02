@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php //$request = new ServerRequest(); ?>
 <html>
 <head>
     <title>surveillance</title>
@@ -64,7 +65,7 @@
 		if ($i % 2 == 0) {
 			echo '<tr style="border-bottom: 1px; color: black;">';
 		}
-		echo '<td class="tzero"><table><tr><td align="center" class="tzero">'.$streams[$i][0].": ".$streams[$i][1].'</td></tr>';
+		echo '<td class="tzero"><table><tr><td align="center" class="tzero">'.$streams[$i][0].'</td></tr>';
 		// put list of streamX/pics subdirs into array and sort them
 		if (is_dir($imgloc[$i])) {
 			$dirs='';
@@ -131,6 +132,16 @@
 			$file_number = array_search($query[$currentcam.'-f'],$files);
 			
 			// show current time for cam $i and current day + arrows
+			// go 10 pics back
+			if ($file_number - 10 < 1) {
+				echo '<<10 ';
+			} else {
+				$query[$currentcam.'-f'] = $files[($file_number - 10)];
+				$query_result = $_SERVER['PHP_SELF'].'?'.http_build_query($query);
+				echo '<a href="'.$query_result.'"><<10</a> ';
+				$query[$currentcam.'-f'] = $files[($file_number)];
+			}
+			// previous pic
 			if ($query[$currentcam.'-f'] == $files[0]) {
 				echo '<<';
 			} else {
@@ -141,6 +152,7 @@
 			}
 			$cur_time = str_replace('-',':',explode('.',explode('__',$query[$currentcam.'-f'])[1])[0]);
 			echo ' '.$cur_time.' ('.($file_number+1).'/'.sizeof($files).') ';
+			// next pic
 			if ($query[$currentcam.'-f'] == $files[sizeof($files)-1]) {
 				echo '>>';
 			} else {
@@ -149,6 +161,16 @@
 				echo '<a href="'.$query_result.'">>></a>';
 				$query[$currentcam.'-f'] = $files[($file_number)];
 			}
+			// go 10 pics forward
+			if ($file_number + 10 > sizeof($files)-1) {
+				echo ' 10>> ';
+			} else {
+				$query[$currentcam.'-f'] = $files[($file_number + 10)];
+				$query_result = $_SERVER['PHP_SELF'].'?'.http_build_query($query);
+				echo ' <a href="'.$query_result.'">10>></a> ';
+				$query[$currentcam.'-f'] = $files[($file_number)];
+			}
+			//echo $file_number;
 			
 			echo '</td></tr>';
 			// get timelapse video when hovering
