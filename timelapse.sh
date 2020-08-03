@@ -7,11 +7,11 @@ while :
         if [ -d "/www/$ss" ]; then
           basedir="/www/$ss/pics"
           today=$(date "+%Y-%m-%d")
-          find $basedir -type f -size 0 -delete
           t=`ls -d $basedir/20*/ | awk -F/ '{print$5}'`
           arr=($t)
           for i in "${arr[@]}"
           do
+            find $basedir/$i/ -type f -size 0 -delete
             if [ $i == $today ]; then
               ffmpeg -y -framerate 24 -pattern_type glob -i "$basedir/$i/*.jpg" -c:v libx264 -pix_fmt yuv420p \
                 "$basedir/${i}_temp_timelapse_in_progress.mp4" >/dev/null 2>&1
