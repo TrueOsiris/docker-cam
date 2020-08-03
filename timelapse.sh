@@ -7,6 +7,7 @@ while :
         if [ -d "/www/$ss" ]; then
           basedir="/www/$ss/pics"
           today=$(date "+%Y-%m-%d")
+          find $basedir -type f -size 0 -delete
           t=`ls -d $basedir/20*/ | awk -F/ '{print$5}'`
           arr=($t)
           for i in "${arr[@]}"
