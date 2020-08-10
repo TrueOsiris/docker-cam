@@ -22,7 +22,7 @@ while :
               if [[ ! -f "$file" ]]; then
                 ffmpeg -framerate 24 -pattern_type glob -i "$basedir/$i/*.jpg" -c:v libx264 -pix_fmt yuv420p \
                   "$basedir/${i}_timelapse.mp4" >/dev/null 2>&1
-                rm "$basedir/${i}_temp_timelapse.mp4" 2>&1
+                rm "$basedir/${i}_temp_timelapse.mp4" 2>/dev/null
               fi
             fi
           done
